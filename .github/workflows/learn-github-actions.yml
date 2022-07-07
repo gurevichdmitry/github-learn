@@ -1,7 +1,7 @@
 name: learn-github-actions
 on: [push]
 jobs:
-  check-bat-vesion:
+  test-and-gerate-results:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -21,3 +21,22 @@ jobs:
       - name: Run script
         run: ./.github/scripts/build.sh
         shell: bash
+      
+      - name: Upload output file
+        uses: actions/upload-artifact@v3
+        with:
+          name: output-log-file
+          path: output.log
+
+  download-results:
+    runs-on: ubuntu-latest
+    needs: test-and-gerate-results
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v3
+        with:
+          name: output-log-file
+      - name: Read downloaded file
+        shell: bash
+        run: |
+          cat output.log

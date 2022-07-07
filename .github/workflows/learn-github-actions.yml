@@ -4,9 +4,19 @@ jobs:
   check-bat-vesion:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
+      - name: Checkout
+        uses: actions/checkout@v3
+      
+      - name: Install node
+        uses: actions/setup-node@v3
+          with:
           node-version: '14'
-      - run: npm install -g bats
-      - run: bats -v
+      - name: Install bats 
+        run: npm install -g bats
+      
+      - name: Execute bats tests
+        run: bats -v
+      
+      - name: Run script
+        run: ./.github/scripts/build.sh
+        shell: bash

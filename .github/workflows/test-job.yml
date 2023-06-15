@@ -1,13 +1,12 @@
 name: Sanity tests
 
 on:
-  # Ability to execute on demand
   workflow_dispatch:
     inputs:
       ec-api-key:
         type: string
-        description: "[Elastic Cloud API KEY](https://cloud.elastic.co/deployment-features/keys)"
-        required: true
+        description: >
+          [Elastic Cloud API KEY](https://cloud.elastic.co/deployment-features/keys)
 
 env:
   WORKING_DIR: fleet_api/src

@@ -1,0 +1,24 @@
+name: Sanity tests
+
+on:
+  # Ability to execute on demand
+  workflow_dispatch:
+    inputs:
+      ec-api-key:
+        type: string
+        description: "[Elastic Cloud API KEY](https://cloud.elastic.co/deployment-features/keys)"
+        required: true
+
+env:
+  WORKING_DIR: fleet_api/src
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 120
+    defaults:
+      run:
+        working-directory: ${{ env.WORKING_DIR }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v3

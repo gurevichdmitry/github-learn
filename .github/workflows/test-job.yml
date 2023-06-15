@@ -5,8 +5,7 @@ on:
     inputs:
       ec-api-key:
         type: string
-        description: >
-          [Elastic Cloud API KEY](https://cloud.elastic.co/deployment-features/keys)
+        description: "Elastic Cloud API KEY. Please refer to the [Cloud API Keys](https://cloud.elastic.co/deployment-features/keys) documentation."
 
 env:
   WORKING_DIR: fleet_api/src

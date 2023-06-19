@@ -3,8 +3,12 @@ name: Sanity tests
 on:
   workflow_dispatch:
     inputs:
+      deployment-name:
+        description: 'Deployment name'
+        required: true 
+        type: string
       myBooleanInput:
-        description: 'Boolean input variable'
+        description: 'Boolean: Cleanup resources after provision'
         default: false
         type: boolean
 

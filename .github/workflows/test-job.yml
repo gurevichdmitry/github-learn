@@ -24,4 +24,4 @@ jobs:
         
       - name: Conditional Step
         run: echo "Run only if true"
-        if: ${{ github.event.inputs.myBooleanInput == true }}
+        if: ${{ github.event.inputs.myBooleanInput == 'true' }}

@@ -3,9 +3,10 @@ name: Sanity tests
 on:
   workflow_dispatch:
     inputs:
-      ec-api-key:
-        type: string
-        description: "Elastic Cloud API KEY. Please refer to the [Cloud API Keys](https://cloud.elastic.co/deployment-features/keys) documentation."
+      myBooleanInput:
+        description: 'Boolean input variable'
+        default: false
+        type: boolean
 
 env:
   WORKING_DIR: fleet_api/src
@@ -20,3 +21,7 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3
+        
+      - name: Conditional Step
+        run: echo "Run only if true"
+        if: ${{ github.event.inputs.myBooleanInput == true }}

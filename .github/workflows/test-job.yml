@@ -15,9 +15,6 @@ jobs:
   Deploy:
     runs-on: ubuntu-20.04
     timeout-minutes: 120
-    defaults:
-      run:
-        working-directory: ${{ env.WORKING_DIR }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v3

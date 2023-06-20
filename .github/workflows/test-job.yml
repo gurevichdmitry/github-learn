@@ -7,6 +7,10 @@ on:
         description: 'Deployment name'
         required: true 
         type: string
+      ec-api-key:
+        description: 'EC key'
+        required: true 
+        type: string
       myBooleanInput:
         description: 'Boolean: Cleanup resources after provision'
         default: false
@@ -26,3 +30,12 @@ jobs:
       - name: Conditional Step
         run: echo "Run only if true"
         if: ${{ github.event.inputs.myBooleanInput == 'true' }}
+
+      - name: Mask data
+        run: |
+           TF_VAR_ec_api_key=$(cat $GITHUB_EVENT_PATH | jq '.inputs.ec-api-key' | sed 's/"//g' )
+           echo "::add-mask::$TF_VAR_ec_api_key"
+           echo "TF_VAR_ec_api_key=$TF_VAR_ec_api_key" >> $GITHUB_ENV
+
+      - name: Print data
+        run: echo "Finish"

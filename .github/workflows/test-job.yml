@@ -33,9 +33,10 @@ jobs:
 
       - name: Mask data
         run: |
-           ec_api_key=$(jq -r '.inputs.ec-api-key' $GITHUB_EVENT_PATH)
-           echo ec_api_key
-           # echo "::add-mask::$ec_api_key"
-           # echo "TF_VAR_ec_api_key=$ec_api_key" >> $GITHUB_ENV
+          ec_api_key=$(jq -r '.inputs["ec-api-key"]' $GITHUB_EVENT_PATH)
+          echo $ec_api_key
+          # echo "::add-mask::$ec_api_key"
+          # echo "TF_VAR_ec_api_key=$ec_api_key" >> $GITHUB_ENV
+
       - name: Print data
         run: echo "Finish"

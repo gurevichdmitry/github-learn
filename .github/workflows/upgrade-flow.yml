@@ -27,7 +27,7 @@ jobs:
       - name: Set Previous Version
         id: set-previous-version
         run: |
-          VERSION="${{ github.event.inputs.elk-stack-version }}"
+          VERSION="${{ inputs.elk-stack-version }}"
           
           # Extract the major and minor versions
           MAJOR_VERSION=$(echo $VERSION | cut -d'.' -f1)

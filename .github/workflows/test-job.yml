@@ -25,7 +25,11 @@ on:
         description: 'EC key'
         required: true 
         type: string
-
+    outputs:
+      ec-key:
+        description: "tf var key"
+        value: ${{ jobs.example_job.outputs.tf-var-ec-api-key }}
+      
 env:
   WORKING_DIR: fleet_api/src
   COMMON_TAGS: "Key=division,Value=engineering Key=org,Value=security Key=team,Value=cloud-security-posture"
@@ -34,6 +38,8 @@ jobs:
   Deploy:
     runs-on: ubuntu-20.04
     timeout-minutes: 120
+    outputs:
+      tf-var-ec-api-key: ${{ steps.step-output.outputs.TF_VAR_ec_api_key }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -51,6 +57,10 @@ jobs:
       
       - name: Print Actor
         run: echo "'${{ env.COMMON_TAGS }} Key=owner,Value=${{ github.actor }}'"
+
+      - name: Set Output
+        id: step-output
+        run: echo "TF_VAR_ec_api_key=$ec_api_key" >> $GITHUB_OUTPUT
 
       - name: Print data
         run: echo "Finish"

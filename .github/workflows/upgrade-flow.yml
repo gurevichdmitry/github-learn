@@ -35,15 +35,19 @@ jobs:
           
           # Calculate the previous version (assuming it's always X.(Y-1))
           PREVIOUS_VERSION="$MAJOR_VERSION.$((MINOR_VERSION - 1))"
-          
+          echo $PREVIOUS_VERSION
           echo "PREVIOUS_VERSION=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
+      - name: Print previous version
+        id: prev-version
+        run: echo "${{ needs.init.outputs.version }}"
+
   deploy:
     uses: ./.github/workflows/test-job.yml
     needs: init
     with:
       deployment_name: ${{ github.event.inputs.deployment_name }}
       ec-api-key: "sdfsdf"
-      ec-stack-version: ${{needs.init.outputs.version}}
+      ec-stack-version: ${{ needs.init.outputs.version }}
   upgrade:
     runs-on: ubuntu-20.04
     needs: deploy

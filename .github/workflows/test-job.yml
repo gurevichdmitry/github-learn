@@ -11,6 +11,10 @@ on:
         description: 'EC key'
         required: true 
         type: string
+      ec-stack-version:
+        description: 'EC version'
+        required: true 
+        type: string
       myBooleanInput:
         description: 'Boolean: Cleanup resources after provision'
         default: false
@@ -23,6 +27,10 @@ on:
         type: string
       ec-api-key:
         description: 'EC key'
+        required: true 
+        type: string
+      ec-stack-version:
+        description: 'EC version'
         required: true 
         type: string
     outputs:
@@ -61,6 +69,9 @@ jobs:
       
       - name: Print Actor
         run: echo "'${{ env.COMMON_TAGS }} Key=owner,Value=${{ github.actor }}'"
+
+      - name: Print version
+        run: echo "${{ ${{ github.event.inputs.ec-stack-version }}"
 
       - name: Set Output
         id: step-output

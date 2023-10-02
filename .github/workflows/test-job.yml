@@ -71,7 +71,7 @@ jobs:
         run: echo "'${{ env.COMMON_TAGS }} Key=owner,Value=${{ github.actor }}'"
 
       - name: Print version
-        run: echo "${{ ${{ github.event.inputs.ec-stack-version }}"
+        run: echo "${{ github.event.inputs.ec-stack-version }}"
 
       - name: Set Output
         id: step-output

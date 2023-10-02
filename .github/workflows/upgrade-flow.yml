@@ -42,7 +42,7 @@ jobs:
         run: echo "${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}"
 
   check-init:
-    runs-on: ubuntu-20.4
+    runs-on: ubuntu-20.04
     needs: init
     steps:
       - name: Print prev version in job

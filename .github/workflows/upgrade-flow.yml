@@ -18,8 +18,14 @@ on:
         required: false
         description: "Provide the full Docker image path to override the default image (e.g. for testing BC/SNAPSHOT)"
 jobs:
-  Deploy:
+  deploy:
     uses: ./.github/workflows/test-job.yml
     with:
       deployment_name: ${{ github.event.inputs.deployment_name }}
       ec-api-key: "sdfsdf"
+  upgrade:
+    runs-on: ubuntu-20.04
+    needs: deploy
+    steps:
+      - id: set-vars
+        run: echo ${{ needs.deploy.outputs.ec-key }}

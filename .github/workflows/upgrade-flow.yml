@@ -1,1 +1,25 @@
+name: Test Upgrade Environment
+run-name: Creating ${{ github.event.inputs.deployment_name }} by @${{ github.actor }}
 
+on:
+  # Ability to execute on demand
+  workflow_dispatch:
+    inputs:
+      deployment_name:
+        type: string
+        description: |
+          Name with letters, numbers, hyphens; start with a letter. Max 20 chars. e.g., 'my-env-123'
+        required: true
+      elk-stack-version:
+        required: true
+        description: "Stack version: For released/BC version use 8.x.y, for SNAPSHOT use 8.x.y-SNAPSHOT"
+        default: "8.11.0"
+      docker-image-override:
+        required: false
+        description: "Provide the full Docker image path to override the default image (e.g. for testing BC/SNAPSHOT)"
+jobs:
+  Deploy:
+    uses: ./.github/workflows/test-job.yml
+    with:
+      deployment_name: ${{ github.event.inputs.deployment_name }}
+      ec-api-key: "sdfsdf"

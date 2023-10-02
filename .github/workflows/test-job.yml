@@ -28,7 +28,10 @@ on:
     outputs:
       ec-key:
         description: "tf var key"
-        value: ${{ jobs.example_job.outputs.tf-var-ec-api-key }}
+        value: ${{ jobs.Deploy.outputs.tf-var-ec-api-key }}
+      public-key:
+        description: "public key"
+        value: ${{ jobs.Deploy.outputs.public-key }}
       
 env:
   WORKING_DIR: fleet_api/src
@@ -40,6 +43,7 @@ jobs:
     timeout-minutes: 120
     outputs:
       tf-var-ec-api-key: ${{ steps.step-output.outputs.TF_VAR_ec_api_key }}
+      public-key: ${{ steps.step-output.outputs.public_key }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -61,6 +65,10 @@ jobs:
       - name: Set Output
         id: step-output
         run: echo "TF_VAR_ec_api_key=$ec_api_key" >> $GITHUB_OUTPUT
+        
+      - name: Set Public output
+        id: step-public-output
+        run: echo "public_key=public key" >> $GITHUB_OUTPUT
 
       - name: Print data
         run: echo "Finish"

@@ -43,7 +43,7 @@ jobs:
     timeout-minutes: 120
     outputs:
       tf-var-ec-api-key: ${{ steps.step-output.outputs.TF_VAR_ec_api_key }}
-      public-key: ${{ steps.step-output.outputs.public_key }}
+      public-key: ${{ steps.step-public-output.outputs.public_key }}
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4

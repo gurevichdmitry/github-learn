@@ -53,7 +53,7 @@ jobs:
     with:
       deployment_name: ${{ github.event.inputs.deployment_name }}
       ec-api-key: "sdfsdf"
-      ec-stack-version: ${{ needs.init.outputs.version }}
+      ec-stack-version: "${{ needs.init.outputs.version }}"
   upgrade:
     runs-on: ubuntu-20.04
     needs: deploy

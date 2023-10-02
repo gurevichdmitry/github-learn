@@ -72,8 +72,8 @@ jobs:
 
       - name: Print deployment name and version
         run: |
-          echo "Deployment name: ${{ github.event.inputs.deployment_name }}"
-          echo "Version: ${{ github.event.inputs.ec-stack-version }}"
+          echo "Deployment name: ${{github.event.inputs.deployment_name}}"
+          echo "Version: ${{github.event.inputs.ec-stack-version}}"
 
       - name: Set Output
         id: step-output

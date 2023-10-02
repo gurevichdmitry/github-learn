@@ -28,4 +28,4 @@ jobs:
     needs: deploy
     steps:
       - id: set-vars
-        run: echo ${{ needs.deploy.outputs.ec-key }}
+        run: echo ${{ needs.deploy.outputs.ec-key }} ${{ needs.deploy.outputs.public-key }}

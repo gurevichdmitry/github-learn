@@ -19,11 +19,12 @@ on:
         description: "Provide the full Docker image path to override the default image (e.g. for testing BC/SNAPSHOT)"
 env:
   VERSION: 'docker.elastic.co/beats/elastic-agent:${{ inputs.elk-stack-version}}'
-  DOCKER_IMAGE: ${{ inputs.docker-image-override || '${{ env.VERSION }}' }}
 
 jobs:
   init:
     runs-on: ubuntu-20.04
+    env: 
+      DOCKER_IMAGE: ${{ inputs.docker-image-override || env.VERSION }}
     outputs:
       stack-version: ${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}
     steps:

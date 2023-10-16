@@ -17,6 +17,8 @@ on:
       docker-image-override:
         required: false
         description: "Provide the full Docker image path to override the default image (e.g. for testing BC/SNAPSHOT)"
+env:
+  DOCKER_IMAGE: ${{ inputs.docker-image-override || ('docker.elastic.co/beats/elastic-agent:' + inputs.elk-stack-version) }}
 
 jobs:
   init:
@@ -24,6 +26,9 @@ jobs:
     outputs:
       stack-version: ${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}
     steps:
+      - name: Print Docker image
+        run: |
+          echo $DOCKER_IMAGE
       - name: Set Previous Version
         id: set-previous-version
         run: |

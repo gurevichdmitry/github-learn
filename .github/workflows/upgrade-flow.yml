@@ -24,7 +24,7 @@ jobs:
   init:
     runs-on: ubuntu-20.04
     env: 
-      DOCKER_IMAGE: ${{ inputs.docker-image-override }} || ${{ env.VERSION }}
+      DOCKER_IMAGE: '${{ inputs.docker-image-override || env.VERSION }}'
     outputs:
       stack-version: ${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}
     steps:

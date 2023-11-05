@@ -56,9 +56,13 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
         
-      - name: Conditional Step
-        run: echo "Run only if true"
+      - name: Input is boolean but string
+        run: echo "Run only if true is interpreted as string"
         if: ${{ inputs.myBooleanInput == 'true' }}
+
+      - name: Input is boolean
+        run: echo "Run only if true is bool"
+        if: ${{ inputs.myBooleanInput == true }}
 
       - name: Mask data
         run: |

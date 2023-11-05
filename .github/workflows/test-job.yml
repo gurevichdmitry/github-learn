@@ -58,7 +58,7 @@ jobs:
         
       - name: Input is boolean but string
         run: echo "Run only if true is interpreted as string"
-        if: ${{ inputs.myBooleanInput == 'true' }}
+        if: ${{ github.event.inputs.myBooleanInput == 'true' }}
 
       - name: Input is boolean
         run: echo "Run only if true is bool"

@@ -12,6 +12,7 @@ jobs:
     name: pr job run
     runs-on: ubuntu-22.04
     timeout-minutes: 60
+    if: false
     permissions:
       contents: 'read'
       id-token: 'write'

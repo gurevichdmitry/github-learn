@@ -17,5 +17,5 @@ jobs:
       contents: 'read'
       id-token: 'write'
     steps:
-      - name: Say hello step
+      - name: Say hello
         run: echo 'hello repo'

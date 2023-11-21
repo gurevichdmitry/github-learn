@@ -12,10 +12,14 @@ jobs:
   pr-job:
     name: pr job run
     runs-on: ubuntu-22.04
+    if: false
     timeout-minutes: 60
     permissions:
       contents: 'read'
       id-token: 'write'
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        
       - name: Say hello
         run: echo 'hello repo'

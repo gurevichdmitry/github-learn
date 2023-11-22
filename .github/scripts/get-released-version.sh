@@ -18,6 +18,13 @@ JSON_RESPONSE=$(curl -s "$URL")
 # Get latest snapshot version
 SNAPSHOT_VERSION=$(echo "$JSON_RESPONSE" | jq -r '.version')
 
+# Check if SNAPSHOT_VERSION is empty
+if [ -z "$SNAPSHOT_VERSION" ]; then
+    # Log an error message with variable values
+    echo "Error: SNAPSHOT_VERSION is empty. VERSION=$VERSION, PREVIOUS_VERSION=$PREVIOUS_VERSION"
+    exit -1
+fi
+
 # Split the version into major, minor, and patch parts
 IFS='.-' read -ra PARTS <<< "$SNAPSHOT_VERSION"
 MAJOR="${PARTS[0]}"

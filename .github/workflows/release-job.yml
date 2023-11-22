@@ -1,0 +1,42 @@
+name: Test Upgrade Environment
+run-name: Creating ${{ github.event.inputs.deployment_name }} by @${{ github.actor }}
+
+on:
+  # Ability to execute on demand
+  workflow_dispatch:
+    inputs:
+      deployment_name:
+        type: string
+        description: |
+          Name with letters, numbers, hyphens; start with a letter. Max 20 chars. e.g., 'my-env-123'
+        required: true
+      elk-stack-version:
+        required: true
+        description: "Stack version: For released/BC version use 8.x.y, for SNAPSHOT use 8.x.y-SNAPSHOT"
+        default: "8.11.0"
+      docker-image-override:
+        required: false
+        description: "Provide the full Docker image path to override the default image (e.g. for testing BC/SNAPSHOT)"
+env:
+  VERSION: 'docker.elastic.co/beats/elastic-agent:${{ inputs.elk-stack-version}}'
+  DOCKER_IMAGE: ${{ inputs.docker-image-override }}
+
+jobs:
+  init:
+    runs-on: ubuntu-20.04
+    outputs:
+      stack-version: ${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        
+      - name: Set Previous Version
+        id: set-previous-version
+        run: |
+          VERSION="${{ inputs.elk-stack-version }}"
+          PREVIOUS_VERSION=$(./.ci/scripts/get-released-version.sh "$VERSION")
+          echo "PREVIOUS_VERSION=$PREVIOUS_VERSION" >> $GITHUB_OUTPUT
+          
+      - name: Print previous version
+        id: prev-version
+        run: echo "${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}"

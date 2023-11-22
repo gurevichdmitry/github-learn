@@ -21,7 +21,7 @@ SNAPSHOT_VERSION=$(echo "$JSON_RESPONSE" | jq -r '.version')
 # Check if SNAPSHOT_VERSION is empty
 if [ -z "$SNAPSHOT_VERSION" ]; then
     # Log an error message with variable values
-    echo "Error: SNAPSHOT_VERSION is empty. VERSION=$VERSION, PREVIOUS_VERSION=$PREVIOUS_VERSION"
+    echo "Error: SNAPSHOT_VERSION is empty. VERSION=$VERSION, PREVIOUS_VERSION=$PREVIOUS_VERSION" >&2
     exit -1
 fi
 

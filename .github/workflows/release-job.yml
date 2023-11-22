@@ -1,4 +1,4 @@
-name: Test Upgrade Environment
+name: test release
 run-name: Creating ${{ github.event.inputs.deployment_name }} by @${{ github.actor }}
 
 on:

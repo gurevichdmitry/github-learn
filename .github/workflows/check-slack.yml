@@ -1,4 +1,4 @@
-name: Weekly environment deployment
+name: slack
 
 on:
   workflow_dispatch:

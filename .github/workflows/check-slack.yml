@@ -1,0 +1,98 @@
+name: Weekly environment deployment
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment_name:
+        description: "Deployment name"
+        type: string
+        required: true
+      job-type:
+        description: 'Send alert by type'
+        type: choice
+        options:
+          - create
+          - destroy
+env:
+  GITHUB_ACTOR: ${{ github.actor }}
+  JOB_TYPE: ${{ inputs.job-type }}
+  DEPLOYMENT_NAME: ${{ inputs.deployment_name }}
+  BUCKET: https://s3.console.aws.amazon.com/s3/buckets/tf-state-bucket-test-infra
+  KIBANA_URL: https://dg-upgrade-1-cxf-8-11-1.kb.us-west2.gcp.elastic-cloud.com:9243/app/home#/
+  
+jobs:
+  slack-sender:
+    name: Send message
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Send Slack Data
+        uses: slackapi/slack-github-action@v1.24.0
+        with:
+          payload: |
+            {
+              "attachments": [
+                {
+                  "color": "#2024b0",
+                  "fallback": "test",
+                  "blocks": [
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Deployment:*\n<${{ env.DEPLOYMENT_NAME }}|${{ env.DEPLOYMENT_NAME }}>"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Status:*\n`${{ env.JOB_STATUS }}`"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "section",
+                      "fields": [
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Author:*\n`${{ env.GITHUB_ACTOR }}`"
+                        },
+                        {
+                          "type": "mrkdwn",
+                          "text": "*Job Type:*\n`${{ env.JOB_TYPE }}`"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "divider"
+                    },
+                    {
+                      "type": "actions",
+                      "elements": [
+                        {
+                          "type": "button",
+                          "text": {
+                            "type": "plain_text",
+                            "text": "kibana"
+                          },
+                          "url": "${{ env.KIBANA_URL }}"
+                        },
+                        {
+                          "type": "button",
+                          "text": {
+                            "type": "plain_text",
+                            "text": "state bucket"
+                          },
+                          "url": "${{ env.BUCKET }}"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          JOB_STATUS: ${{ job.status }}

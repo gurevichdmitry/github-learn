@@ -35,7 +35,8 @@ jobs:
             {
               "attachments": [
                 {
-                  "color": "#2024b0",
+                  # "color": "#2024b0",
+                  "color": "${{ job.status == 'success' ? '#36a64f' : '#b02035' }}"
                   "fallback": "test",
                   "blocks": [
                     {
@@ -43,7 +44,7 @@ jobs:
                       "fields": [
                         {
                           "type": "mrkdwn",
-                          "text": "*Deployment:*\n<${{ env.DEPLOYMENT_NAME }}|${{ env.DEPLOYMENT_NAME }}>"
+                          "text": "*Deployment:*\n<${{ env.RUN_URL }}|${{ env.DEPLOYMENT_NAME }}>"
                         },
                         {
                           "type": "mrkdwn",
@@ -96,3 +97,4 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
           JOB_STATUS: ${{ job.status }}
+          RUN_URL: ${{ github.run_url }}

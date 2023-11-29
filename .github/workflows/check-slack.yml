@@ -36,7 +36,6 @@ jobs:
               "attachments": [
                 {
                   "color": "#36a64f",
-                  "text": "Create Environment job",
                   "blocks": [
                     {
                         "type": "section",

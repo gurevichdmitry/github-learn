@@ -39,11 +39,11 @@ jobs:
                   "text": "Create Environment job",
                   "blocks": [
                     {
-                      "type": "section",
-                      "text": {
-                          "type: "mrkdwn",
-                          "text": "Create Environment `test-env` triggered by <@U030XM1N3BP>"
-                      }
+                        "type": "section",
+                        "text": {
+                            "type": "mrkdwn",
+                            "text": "Create Environment by <@U030XM1N3BP>"
+                        }
                     },
                     {
                       "type": "section",

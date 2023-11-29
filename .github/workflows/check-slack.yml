@@ -41,19 +41,9 @@ jobs:
                     {
                       "type": "section",
                       "text": {
-                        "type: "mrkdwn",
-                        "text": "Create Environment `test-env` triggered by <@U030XM1N3BP>"
+                          "type: "mrkdwn",
+                          "text": "Create Environment `test-env` triggered by <@U030XM1N3BP>"
                       }
-                      "fields": [
-                        {
-                          "type": "mrkdwn",
-                          "text": "*Deployment:*\n<${{ env.RUN_URL }}|${{ env.DEPLOYMENT_NAME }}>"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*Status:*\n`${{ env.JOB_STATUS }}`"
-                        }
-                      ]
                     },
                     {
                       "type": "section",

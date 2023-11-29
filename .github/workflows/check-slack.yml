@@ -35,9 +35,9 @@ jobs:
             {
               "attachments": [
                 {
-                  # "color": "#2024b0",
-                  "color": "${{ job.status == 'success' ? '#36a64f' : '#b02035' }}"
-                  "fallback": "test",
+                  "color": "#36a64f",
+                  # "color": "${{ job.status == 'success' ? '#36a64f' : '#b02035' }}"
+                  # "fallback": "test",
                   "blocks": [
                     {
                       "type": "section",
@@ -75,8 +75,9 @@ jobs:
                           "type": "button",
                           "text": {
                             "type": "plain_text",
-                            "text": "kibana"
+                            "text": "kibana link"
                           },
+                          "style": "primary",
                           "url": "${{ env.KIBANA_URL }}"
                         },
                         {
@@ -85,6 +86,7 @@ jobs:
                             "type": "plain_text",
                             "text": "state bucket"
                           },
+                          "style": "primary",
                           "url": "${{ env.BUCKET }}"
                         }
                       ]

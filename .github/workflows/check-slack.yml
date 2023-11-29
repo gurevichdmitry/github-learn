@@ -105,6 +105,5 @@ jobs:
             }
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
           JOB_STATUS: ${{ job.status }}
           RUN_URL: ${{ github.run_url }}

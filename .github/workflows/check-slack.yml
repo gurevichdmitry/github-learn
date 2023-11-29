@@ -83,7 +83,8 @@ jobs:
                             "text": "kibana link"
                           },
                           "style": "primary",
-                          "url": "${{ env.KIBANA_URL }}"
+                          "url": "${{ env.KIBANA_URL }}",
+                          "action_id": "action-kibana-0"
                         },
                         {
                           "type": "button",
@@ -92,7 +93,8 @@ jobs:
                             "text": "state bucket"
                           },
                           "style": "primary",
-                          "url": "${{ env.BUCKET }}"
+                          "url": "${{ env.BUCKET }}",
+                          "action_id": "action-bucket-0"
                         }
                       ]
                     }

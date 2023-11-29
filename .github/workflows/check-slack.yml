@@ -36,8 +36,6 @@ jobs:
               "attachments": [
                 {
                   "color": "#36a64f",
-                  # "color": "${{ job.status == 'success' ? '#36a64f' : '#b02035' }}"
-                  # "fallback": "test",
                   "blocks": [
                     {
                       "type": "section",

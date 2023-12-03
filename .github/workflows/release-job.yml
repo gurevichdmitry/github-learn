@@ -40,10 +40,13 @@ jobs:
       - name: Print previous version
         id: prev-version
         run: echo "${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}"
-    
+
+      - name: Fail Job
+        run: exit 1
+  
       - name: Job status
+        if: always()
         env:
           JOB_STATUS: "${{ job.status == 'success' && '#36a64f' || '#b02035' }}"
         run: |
-          payload=
           echo ${{ env.JOB_STATUS }}

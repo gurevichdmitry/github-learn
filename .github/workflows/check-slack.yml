@@ -3,7 +3,7 @@ name: slack
 on:
   workflow_dispatch:
     inputs:
-      deployment_name:
+      prefix:
         description: "Deployment name"
         type: string
         required: true
@@ -13,12 +13,6 @@ on:
         options:
           - create
           - destroy
-env:
-  GITHUB_ACTOR: ${{ github.actor }}
-  JOB_TYPE: ${{ inputs.job-type }}
-  DEPLOYMENT_NAME: ${{ inputs.deployment_name }}
-  BUCKET: https://s3.console.aws.amazon.com/s3/buckets/tf-state-bucket-test-infra
-  KIBANA_URL: https://dg-upgrade-1-cxf-8-11-1.kb.us-west2.gcp.elastic-cloud.com:9243/app/home#/
   
 jobs:
   slack-sender:
@@ -34,77 +28,23 @@ jobs:
           channel-id: '#csp-qa-alerts'
           payload: |
             {
-              "text": "Create github workflow",
               "attachments": [
                 {
-                  "color": "#36a64f",
+                  "color": "${{ env.JOB_STATUS_COLOR }}",
                   "blocks": [
                     {
                         "type": "section",
                         "text": {
                             "type": "mrkdwn",
-                            "text": "Create Environment by <@U030XM1N3BP>"
+                            "text": "${{ github.workflow }} job <${{env.RUN_URL}}|${{ inputs.prefix }}> triggered by `${{github.actor}}`"
                         }
-                    },
-                    {
-                      "type": "section",
-                      "fields": [
-                        {
-                          "type": "mrkdwn",
-                          "text": "*Deployment:*\n<${{ env.RUN_URL }}|${{ env.DEPLOYMENT_NAME }}>"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*Status:*\n`${{ env.JOB_STATUS }}`"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "section",
-                      "fields": [
-                        {
-                          "type": "mrkdwn",
-                          "text": "*Author:*\n`${{ env.GITHUB_ACTOR }}`"
-                        },
-                        {
-                          "type": "mrkdwn",
-                          "text": "*Job Type:*\n`${{ env.JOB_TYPE }}`"
-                        }
-                      ]
-                    },
-                    {
-                      "type": "divider"
-                    },
-                    {
-                      "type": "actions",
-                      "elements": [
-                        {
-                          "type": "button",
-                          "text": {
-                            "type": "plain_text",
-                            "text": "kibana link"
-                          },
-                          "style": "primary",
-                          "url": "${{ env.KIBANA_URL }}",
-                          "action_id": "action-kibana-0"
-                        },
-                        {
-                          "type": "button",
-                          "text": {
-                            "type": "plain_text",
-                            "text": "state bucket"
-                          },
-                          "style": "primary",
-                          "url": "${{ env.BUCKET }}",
-                          "action_id": "action-bucket-0"
-                        }
-                      ]
                     }
                   ]
                 }
               ]
             }
         env:
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          JOB_STATUS: ${{ job.status }}
-          RUN_URL: ${{ github.run_url }}
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          JOB_STATUS_COLOR: "${{ job.status == 'success' && '#36a64f' || '#b02035' }}"
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

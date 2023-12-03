@@ -43,5 +43,7 @@ jobs:
     
       - name: Job status
         env:
-          JOB_STATUS: "${{ job.status == 'success' ? '#36a64f' : '#b02035' }}"
-        run: echo ${{ env.JOB_STATUS }}
+          JOB_STATUS: "${{ job.status == 'success' && '#36a64f' || '#b02035' }}"
+        run: |
+          payload=
+          echo ${{ env.JOB_STATUS }}

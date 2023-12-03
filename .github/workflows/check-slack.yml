@@ -34,7 +34,7 @@ jobs:
             {
               "attachments": [
                 {
-                  "color": "${{ env.JOB_STATUS_COLOR }}",
+                  "color": ${{ env.JOB_STATUS_COLOR }},
                   "blocks": [
                     {
                         "type": "section",

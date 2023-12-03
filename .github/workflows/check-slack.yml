@@ -22,7 +22,11 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
+      - name: Test Fail
+        run: exit 1
+
       - name: Send Slack Data
+        if: always()
         uses: slackapi/slack-github-action@v1.24.0
         with:
           channel-id: '#csp-qa-alerts'

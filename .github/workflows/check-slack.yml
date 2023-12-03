@@ -34,7 +34,7 @@ jobs:
             {
               "attachments": [
                 {
-                  "color": ${{ env.JOB_STATUS_COLOR }},
+                  "color": "${{ env.JOB_STATUS_COLOR }}",
                   "blocks": [
                     {
                         "type": "section",
@@ -49,6 +49,6 @@ jobs:
             }
         env:
           RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          JOB_STATUS_COLOR: "${{ job.status == 'success' && 'good' || 'danger' }}"
+          JOB_STATUS_COLOR: "${{ job.status == 'success' && '#36a64f' || '#E01A59' }}"
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

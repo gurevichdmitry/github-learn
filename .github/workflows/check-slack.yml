@@ -22,8 +22,18 @@ jobs:
       - name: Check out the repo
         uses: actions/checkout@v4
 
-      - name: Test Fail
-        run: exit 1
+      # - name: Test Fail
+      #   run: exit 1
+
+      - name: Get the Slack Webhook from Vault
+        uses: hashicorp/vault-action@v2.7.4
+        with:
+          url: ${{ secrets.VAULT_ADDR }}
+          roleId: ${{ secrets.VAULT_ROLE_ID }}
+          secretId: ${{ inputs.VAULT_SECRET_ID }}
+          method: approle
+          secrets: |
+            secret/csp-team/ci/cloud-security-test-envs-webhook slack-webhook | SLACK_WEBHOOK_URL
 
       - name: Send Slack Data
         if: always()
@@ -50,6 +60,6 @@ jobs:
         env:
           RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
           JOB_STATUS_COLOR: "${{ job.status == 'success' && '#36a64f' || '#D40E0D' }}"
-          SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
-          # SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          # SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+          # SLACK_BOT_TOKEN: ${{ secrets.SLACK_BOT_TOKEN }}
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

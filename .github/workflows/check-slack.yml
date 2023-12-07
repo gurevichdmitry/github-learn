@@ -30,7 +30,7 @@ jobs:
         with:
           url: ${{ secrets.VAULT_ADDR }}
           roleId: ${{ secrets.VAULT_ROLE_ID }}
-          secretId: ${{ inputs.VAULT_SECRET_ID }}
+          secretId: ${{ secrets.VAULT_SECRET_ID }}
           method: approle
           secrets: |
             secret/csp-team/ci/cloud-security-test-envs-webhook slack-webhook | SLACK_WEBHOOK_URL

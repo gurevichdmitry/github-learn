@@ -55,12 +55,12 @@ runs:
     - name: Send Slack notification
       id: send-slack-notification
       uses: slackapi/slack-github-action@v1.24.0
+      env:
+        # Replace webhook with bot token after approval
+        # SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
+        SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+        SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
       with:
         channel-id: ${{ inputs.slack-channel }}
         payload: |
           ${{ steps.prepare-slack-data.outputs.payload }}
-        env:
-          # Replace webhook with bot token after approval
-          # SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
-          SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

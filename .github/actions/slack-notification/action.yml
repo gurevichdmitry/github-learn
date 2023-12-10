@@ -43,6 +43,7 @@ runs:
 
     - name: Prepare Slack data
       id: prepare-slack-data
+      shell: bash
       env:
         MESSAGE: ${{ inputs.slack-message }}
         PAYLOAD: ${{ inputs.slack-payload }}

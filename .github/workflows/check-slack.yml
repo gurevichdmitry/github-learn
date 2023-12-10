@@ -25,23 +25,28 @@ jobs:
       # - name: Test Fail
       #   run: exit 1
 
-      - name: Get the Slack Webhook from Vault
-        uses: hashicorp/vault-action@v2.7.4
-        with:
-          url: ${{ secrets.VAULT_ADDR }}
-          roleId: ${{ secrets.VAULT_ROLE_ID }}
-          secretId: ${{ secrets.VAULT_SECRET_ID }}
-          method: approle
-          secrets: |
-            secret/csp-team/ci/cloud-security-test-envs-webhook slack-webhook | SLACK_WEBHOOK_URL ;
-            secret/csp-team/ci/slack-bot-token integration_token | SLACK_BOT_TOKEN
-
-      - name: Send Slack Data
+      # - name: Get the Slack Webhook from Vault
+      #   uses: hashicorp/vault-action@v2.7.4
+      #   with:
+      #     url: ${{ secrets.VAULT_ADDR }}
+      #     roleId: ${{ secrets.VAULT_ROLE_ID }}
+      #     secretId: ${{ secrets.VAULT_SECRET_ID }}
+      #     method: approle
+      #     secrets: |
+      #       secret/csp-team/ci/cloud-security-test-envs-webhook slack-webhook | SLACK_WEBHOOK_URL ;
+      #       secret/csp-team/ci/slack-bot-token integration_token | SLACK_BOT_TOKEN
+      - name: Publish to Slack channel
         if: always()
-        uses: slackapi/slack-github-action@v1.24.0
+        uses: gurevichdmitry/github-learn/.github/actions/slack-notification@current
+        env:
+          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+          JOB_STATUS_COLOR: "${{ job.status == 'success' && '#36a64f' || '#D40E0D' }}"
         with:
-          channel-id: '#csp-qa-alerts'
-          payload: |
+          vault-url: ${{ secrets.VAULT_ADDR }}
+          vault-role-id: ${{ secrets.VAULT_ROLE_ID }}
+          vault-secret-id: ${{ secrets.VAULT_SECRET_ID }}
+          channel: "#csp-qa-alerts"
+          slack-payload: |
             {
               "attachments": [
                 {
@@ -57,10 +62,33 @@ jobs:
                   ]
                 }
               ]
-            }
-        env:
-          RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          JOB_STATUS_COLOR: "${{ job.status == 'success' && '#36a64f' || '#D40E0D' }}"
-          SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
-          # SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
-          # SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK
+            }          
+      
+      # - name: Send Slack Data
+      #   if: always()
+      #   uses: slackapi/slack-github-action@v1.24.0
+      #   with:
+      #     channel-id: '#csp-qa-alerts'
+      #     payload: |
+      #       {
+      #         "attachments": [
+      #           {
+      #             "color": "${{ env.JOB_STATUS_COLOR }}",
+      #             "blocks": [
+      #               {
+      #                   "type": "section",
+      #                   "text": {
+      #                       "type": "mrkdwn",
+      #                       "text": "${{ github.workflow }} job <${{env.RUN_URL}}|${{ inputs.prefix }}> triggered by `${{github.actor}}`"
+      #                   }
+      #               }
+      #             ]
+      #           }
+      #         ]
+      #       }
+      #   env:
+      #     RUN_URL: "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
+      #     JOB_STATUS_COLOR: "${{ job.status == 'success' && '#36a64f' || '#D40E0D' }}"
+      #     SLACK_BOT_TOKEN: ${{ env.SLACK_BOT_TOKEN }}
+      #     # SLACK_WEBHOOK_URL: ${{ env.SLACK_WEBHOOK_URL }}
+      #     # SLACK_WEBHOOK_TYPE: INCOMING_WEBHOOK

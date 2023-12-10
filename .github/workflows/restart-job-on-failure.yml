@@ -32,4 +32,6 @@ jobs:
       - name: Rerun failed jobs in the current workflow
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh run rerun ${{ github.run_id }} --failed --repo gurevichdmitry/github-learn --job init
+        run: |
+          gh run rerun --failed --repo gurevichdmitry/github-learn --job init
+          # gh run rerun ${{ github.run_id }} --failed --repo gurevichdmitry/github-learn --job init

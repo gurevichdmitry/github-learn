@@ -45,7 +45,7 @@ jobs:
           vault-url: ${{ secrets.VAULT_ADDR }}
           vault-role-id: ${{ secrets.VAULT_ROLE_ID }}
           vault-secret-id: ${{ secrets.VAULT_SECRET_ID }}
-          channel: "#csp-qa-alerts"
+          slack-channel: "#csp-qa-alerts"
           slack-payload: |
             {
               "attachments": [

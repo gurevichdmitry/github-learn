@@ -24,6 +24,8 @@ jobs:
     needs: [init]
     if: failure()
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
       - name: Rerun failed jobs in the current workflow
         env:
           GH_TOKEN: ${{ github.token }}

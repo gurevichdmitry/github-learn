@@ -48,10 +48,18 @@ jobs:
           slack-channel: "#csp-qa-alerts"
           slack-payload: |
             {
+            	"blocks": [
+                {
+                  "type": "section",
+                  "text": {
+                    "type": "mrkdwn",
+                    "text": "test"
+                  }
+                }
+              ],
               "attachments": [
                 {
                   "color": "${{ env.JOB_STATUS_COLOR }}",
-                  "fallback": "text",
                   "blocks": [
                     {
                         "type": "section",

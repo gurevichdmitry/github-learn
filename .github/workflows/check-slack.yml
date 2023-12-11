@@ -48,12 +48,13 @@ jobs:
           slack-channel: "#csp-qa-alerts"
           slack-payload: |
             {
+              "text": "init",
             	"blocks": [
                 {
                   "type": "section",
                   "text": {
                     "type": "mrkdwn",
-                    "text": "test"
+                    "text": ""
                   }
                 }
               ],

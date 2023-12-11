@@ -48,14 +48,10 @@ jobs:
           slack-channel: "#csp-qa-alerts"
           slack-payload: |
             {
-              "text": "init",
+              "text": "${{ github.workflow }} job <${{env.RUN_URL}}|${{ inputs.prefix }}> triggered by `${{github.actor}}`",
             	"blocks": [
                 {
-                  "type": "section",
-                  "text": {
-                    "type": "mrkdwn",
-                    "text": ""
-                  }
+                  "type": "divider"
                 }
               ],
               "attachments": [

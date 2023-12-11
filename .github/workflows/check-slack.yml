@@ -51,6 +51,7 @@ jobs:
               "attachments": [
                 {
                   "color": "${{ env.JOB_STATUS_COLOR }}",
+                  "text": "this is a text block",
                   "blocks": [
                     {
                         "type": "section",

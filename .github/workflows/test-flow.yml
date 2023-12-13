@@ -1,4 +1,4 @@
-name: Restart job
+name: test-flow
 run-name: job ${{ github.event.inputs.deployment_name }} by @${{ github.actor }}
 
 on:

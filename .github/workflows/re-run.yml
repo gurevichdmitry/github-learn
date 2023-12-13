@@ -1,0 +1,17 @@
+name: Rerun job
+
+
+jobs:
+  rerun-failed-jobs:
+    runs-on: ubuntu-latest
+    needs: [init]
+    if: failure()
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+
+      - name: Rerun failed jobs in the current workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh run rerun ${{ github.run_id }} --failed

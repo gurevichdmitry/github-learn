@@ -14,7 +14,7 @@ jobs:
         run: |
           echo "Workflow Run ID: ${{ github.event.workflow_run.id }}"
           echo "Job ID: ${{ github.job }}"
-          echo "Current run: ${{ github.run_attempt }}
+          echo "Current run: ${{ github.run_attempt }}"
       - name: Rerun failed jobs in the current workflow
         env:
           GH_TOKEN: ${{ github.token }}

@@ -10,14 +10,20 @@ jobs:
     runs-on: ubuntu-latest
     if: ${{ github.event.workflow_run.conclusion == 'failure' }} 
     steps:
-      # - name: Check out the repo
-      #   uses: actions/checkout@v4
       - name: Display Workflow Run Information
         run: |
           echo "Workflow Run ID: ${{ github.event.workflow_run.id }}"
           echo "Job ID: ${{ github.job }}"
+      - name: Set Retry Counter
+        id: set-retry-counter
+        run: echo "RETRY_COUNTER=$((RETRY_COUNTER+1))" >> $GITHUB_ENV
       - name: Rerun failed jobs in the current workflow
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run rerun ${{ github.event.workflow_run.id }} --repo gurevichdmitry/github-learn --failed
+          if [ ${{ env.RETRY_COUNTER }} -le 2 ]; then
+            gh run rerun ${{ github.event.workflow_run.id }} --repo gurevichdmitry/github-learn --failed
+          else
+            echo "Exceeded maximum retry attempts. Exiting."
+          fi
+  

@@ -19,4 +19,4 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          gh run rerun ${{ github.event.workflow_run.id }} --repo ${{ github.repository_owner }}/${{ github.repository_name }} --failed
+          gh run rerun ${{ github.event.workflow_run.id }} --repo ${{ github.repository }} --failed

@@ -14,16 +14,9 @@ jobs:
         run: |
           echo "Workflow Run ID: ${{ github.event.workflow_run.id }}"
           echo "Job ID: ${{ github.job }}"
-      - name: Set Retry Counter
-        id: set-retry-counter
-        run: echo "RETRY_COUNTER=$((RETRY_COUNTER+1))" >> $GITHUB_ENV
+          echo "Current run: ${{ github.run_attempt }}
       - name: Rerun failed jobs in the current workflow
         env:
           GH_TOKEN: ${{ github.token }}
         run: |
-          if [ ${{ env.RETRY_COUNTER }} -le 2 ]; then
-            gh run rerun ${{ github.event.workflow_run.id }} --repo gurevichdmitry/github-learn --failed
-          else
-            echo "Exceeded maximum retry attempts. Exiting."
-          fi
-  
+          gh run rerun ${{ github.event.workflow_run.id }} --repo gurevichdmitry/github-learn --failed

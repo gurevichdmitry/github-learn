@@ -16,8 +16,9 @@ jobs:
     runs-on: ubuntu-20.04
     steps:
       - name: Pass job
+        id: message
         run: |
           echo "MESSAGE=Pass\nhello\nworld" >> $GITHUB_OUTPUT
 
       - name: Fail job
-        run: echo "${{ steps.pass-job.outputs.MESSAGE }}"
+        run: echo "${{ steps.message.outputs.MESSAGE }}"

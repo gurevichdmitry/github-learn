@@ -50,6 +50,7 @@ runs:
         MASK: ${{ inputs.mask-secrets }}
         URL_ENCODED: ${{ inputs.url-encoded }}
       run: |
+        echo "${{ env.USER }}"
         python3 ${{ github.action_path }}/slack_payload.py
 
     - name: Send Slack notification

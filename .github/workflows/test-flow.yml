@@ -17,6 +17,7 @@ jobs:
     steps:
       - name: Pass job
         id: message
+        shell: bash
         run: |
           description="Line 1\n
                       line2 \n

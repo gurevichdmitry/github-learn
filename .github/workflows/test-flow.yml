@@ -18,7 +18,10 @@ jobs:
       - name: Pass job
         id: message
         run: |
-          echo "MESSAGE=Pass\nhello\nworld" >> $GITHUB_OUTPUT
+          description="Line 1\n
+                      line2 \n
+                      line3"
+          echo "MESSAGE=$description" >> $GITHUB_OUTPUT
 
       - name: Fail job
         run: echo "${{ steps.message.outputs.MESSAGE }}"

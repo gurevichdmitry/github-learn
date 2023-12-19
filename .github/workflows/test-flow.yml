@@ -12,11 +12,13 @@ on:
         required: true
 
 jobs:
-  init:
+  pass-job:
     runs-on: ubuntu-20.04
     steps:
-      - name: Check out the repo
-        uses: actions/checkout@v4
-
-      - name: Fail Job
+      - name: Pass job
+        run: echo "Pass"
+  fail-job:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Fail job
         run: exit 1

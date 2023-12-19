@@ -1,3 +1,4 @@
+name: Rerun Flaky Workflows
 on:
   workflow_run:
     workflows: ["test-flow"]
@@ -13,6 +14,7 @@ jobs:
           echo "Workflow Run ID: ${{ github.event.workflow_run.id }}"
           echo "Job ID: ${{ github.job }}"
           echo "Current run: ${{ github.run_attempt }}"
+          echo "AUTHOR: ${{ github.event.workflow_run.head_commit.author.name }}"
       - name: Rerun failed jobs in the current workflow
         env:
           GH_TOKEN: ${{ github.token }}

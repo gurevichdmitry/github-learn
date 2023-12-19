@@ -22,9 +22,10 @@ jobs:
           import os
           
           message = """
-          Hello
-          World
-          """
+                    Set an output variable for the GitHub Actions workflow.
+
+                    Parameters:
+                    """
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
             print(f"MESSAGE={message}", file=fh)
 

@@ -20,8 +20,8 @@ jobs:
         shell: bash
         run: |
           description="Line 1\n
-                      line2 \n
-                      line3"
+          line2 \n
+          line3"
           echo "MESSAGE=$description" >> $GITHUB_OUTPUT
 
       - name: Fail job

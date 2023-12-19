@@ -17,11 +17,16 @@ jobs:
     steps:
       - name: Pass job
         id: message
-        shell: bash
+        shell: python
         run: |
-          description="Line 1\nline2\nline3"
-          echo $description
-          echo "MESSAGE=$description" >> $GITHUB_OUTPUT
+          import os
+          
+          message = """
+          Hello
+          World
+          """
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+            print(f"MESSAGE={message}", file=fh)
 
       - name: Fail job
         run: echo "${{ steps.message.outputs.MESSAGE }}"

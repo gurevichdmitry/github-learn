@@ -17,17 +17,20 @@ jobs:
     steps:
       - name: Pass job
         id: message
-        shell: python
         run: |
+          python3 - <<EOF
           import os
           
-          message = """
-                    Set an output variable for the GitHub Actions workflow.
-
-                    Parameters:
-                    """
+          multiline_string = """
+          This is a multiline string
+          It spans multiple lines
+          Each line is a part of the string
+          """
+          
+          print(multiline_string)
           with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
             print(f"MESSAGE={message}", file=fh)
+          EOF
 
       - name: Fail job
         run: echo "${{ steps.message.outputs.MESSAGE }}"

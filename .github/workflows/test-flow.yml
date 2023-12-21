@@ -10,6 +10,10 @@ on:
         description: |
           Name with letters, numbers, hyphens; start with a letter. Max 20 chars. e.g., 'my-env-123'
         required: true
+      is_run:
+        type: boolean
+        default: false
+        description: "Run script or not"
 
 jobs:
   pass-job:
@@ -34,4 +38,5 @@ jobs:
           EOF
 
       - name: Fail job
+        if: ${{ inputs.is_run == true }}
         run: echo "${{ steps.message.outputs.MESSAGE }}"

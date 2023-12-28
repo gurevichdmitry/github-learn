@@ -12,7 +12,8 @@ inputs:
     required: true
   slack-channel:
     description: 'Slack channel'
-    required: true
+    required: false
+    default: '#csp-qa-alerts'
   slack-message:
     description: 'Slack message'
     required: false

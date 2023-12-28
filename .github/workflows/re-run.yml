@@ -57,13 +57,13 @@ jobs:
           vault-secret-id: ${{ secrets.VAULT_SECRET_ID }}
           slack-payload: |
             {
-              "text": ":alert: CI is failing on ${{ github.event.workflow_run.head_branch }} :alert:",
+              "text": ":alert: CI ${{ github.event.workflow.name }} is failing on ${{ github.event.workflow_run.head_branch }} :alert:",
             	"blocks": [
                 {
                   "type": "header",
                   "text": {
                     "type": "plain_text",
-                    "text": ":alert: CI is failing on ${{ github.event.workflow_run.head_branch }} :alert:",
+                    "text": ":alert: CI ${{ github.event.workflow.name }} is failing on ${{ github.event.workflow_run.head_branch }} :alert:",
                     "emoji": true
                   }
                 }
@@ -76,7 +76,7 @@ jobs:
                       "type": "section",
                       "text": {
                         "type": "mrkdwn",
-                        "text": "Commit <https://github.com/elastic/cloudbeat/commit/${{env.BREAKING_COMMIT}}|${{env.BREAKING_COMMIT_SHORT}}> by ${{env.PR_AUTHOR}} has failing <${{env.RUN_URL}}|${{env.RUN_NAME}}> tests on the `${{env.BRANCH}}` branch."
+                        "text": "Commit <https://github.com/elastic/cloudbeat/commit/${{env.BREAKING_COMMIT}}|${{env.BREAKING_COMMIT_SHORT}}> by ${{env.PR_AUTHOR}} has failing tests on the `${{env.BRANCH}}` branch."
                       }
                     },
                     {

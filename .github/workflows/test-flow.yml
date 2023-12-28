@@ -1,4 +1,4 @@
-name: test-flow
+name: K8s-CI
 run-name: job ${{ github.event.inputs.deployment_name }} by @${{ github.actor }}
 
 on:

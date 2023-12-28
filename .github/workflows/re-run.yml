@@ -17,6 +17,7 @@ jobs:
           echo "Head Commit username: ${{ github.event.workflow_run.head_commit.author.username }}"
           echo "Head Commit author.user: ${{ github.event.workflow_run.head_commit.author.user }}"
           echo "Head Commit author.user: ${{ github.event.workflow_run.head_commit.user }}"
+          echo "$GITHUB_CONTEXT"
           # echo "Job ID: ${{ github.job }}"
           # echo "Current run: ${{ github.run_attempt }}"
           # echo "Author: ${{ github.event.workflow_run.head_commit.author.name }}"

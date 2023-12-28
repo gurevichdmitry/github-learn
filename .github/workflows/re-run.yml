@@ -27,10 +27,18 @@ jobs:
           if [ $CURRENT_RUN -lt $MAX_RUNS ]; then
             gh run rerun ${{ github.event.workflow_run.id }} --repo ${{ github.repository }} --failed
           else
-            commit_short=$(git rev-parse --short ${{ github.event.workflow_run.head_sha }})
-            echo "BREAKING_COMMIT_SHORT=$commit_short" >> $GITHUB_ENV
             exit 1
           fi
+      - name: Check out the repo
+        if: ${{ !'canceled()' && 'failure()' }} # Run only if the previous step failed
+        uses: actions/checkout@v4
+
+      - name: Get Short Commit
+        if: ${{ !'canceled()' && 'failure()' }} # Run only if the previous step failed
+        run: |
+          commit_short=$(git rev-parse --short ${{ github.event.workflow_run.head_sha }})
+          echo "BREAKING_COMMIT_SHORT=$commit_short" >> $GITHUB_ENV
+  
       - name: Slack Notification
         uses: ./.github/actions/slack-notification
         if: ${{ !'canceled()' && 'failure()' }} # Run only if the previous step failed

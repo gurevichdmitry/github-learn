@@ -13,13 +13,10 @@ jobs:
         run: |
           echo "The Workflow Run ${{ github.event.workflow_run.name }} has failed! " >> $GITHUB_STEP_SUMMARY
           echo "View the failed run attempt (#${{ github.event.workflow_run.run_attempt }}) here: ${{ github.event.workflow_run.html_url }}" >> $GITHUB_STEP_SUMMARY
-          echo "Head Commit author: ${{ github.event.workflow_run.head_commit.author }}"
-          echo "Head Commit username: ${{ github.event.workflow_run.head_commit.author.username }}"
-          echo "Head Commit author.user: ${{ github.event.workflow_run.head_commit.author.user }}"
-          echo "Head Commit author.user: ${{ github.event.workflow_run.head_commit.user }}"
-          echo "Head Commit commiter username: ${{ github.event.workflow_run.head_commit.committer.username }}"
-          echo "Head Commit commiter name: ${{ github.event.workflow_run.head_commit.committer.name }}"
-          echo '${{ toJSON(github) }}'
+          email="${{ github.event.workflow_run.head_commit.author.email }}"
+          username=$(echo "$email" | cut -d'@' -f1 | awk -F'+' '{print $2}')
+          echo "GitHub Username: $username"
+          # echo '${{ toJSON(github) }}'
           # echo "Job ID: ${{ github.job }}"
           # echo "Current run: ${{ github.run_attempt }}"
           # echo "Author: ${{ github.event.workflow_run.head_commit.author.name }}"

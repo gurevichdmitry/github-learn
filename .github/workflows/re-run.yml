@@ -38,13 +38,13 @@ jobs:
         run: |
           commit_short=$(git rev-parse --short ${{ github.event.workflow_run.head_sha }})
           echo "BREAKING_COMMIT_SHORT=$commit_short" >> $GITHUB_ENV
+          echo "PR_AUTHOR=${{ github.event.workflow_run.head_commit.author.login/@/ }}" >> $GITHUB_ENV
   
       - name: Slack Notification
         uses: ./.github/actions/slack-notification
         if: ${{ !cancelled() && failure() }} # Run only if the previous step failed
         env:
           BREAKING_COMMIT: "${{ github.event.workflow_run.head_sha }}"
-          PR_AUTHOR: "${{ github.event.workflow_run.head_commit.author.login }}"
           RUN_URL: "${{ github.event.workflow_run.html_url }}"
           RUN_NAME: "${{ github.event.workflow_run.name }}"
           BRANCH: "${{ github.event.workflow_run.head_branch }}"

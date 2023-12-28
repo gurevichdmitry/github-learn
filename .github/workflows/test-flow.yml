@@ -19,24 +19,27 @@ jobs:
   pass-job:
     runs-on: ubuntu-20.04
     steps:
-      - name: Pass job
-        id: message
-        run: |
-          python3 - <<EOF
-          import os
-          from urllib.parse import quote
-          
-          multiline_string = quote("""
-          This is a multiline string
-          It spans multiple lines
-          Each line is a part of the string
-          """)
-          
-          print(multiline_string)
-          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
-            print(f"MESSAGE={multiline_string}", file=fh)
-          EOF
-
       - name: Fail job
-        if: ${{ inputs.is_run == true }}
-        run: echo "${{ steps.message.outputs.MESSAGE }}"
+        run: exit 1
+      
+      # - name: Pass job
+      #   id: message
+      #   run: |
+      #     python3 - <<EOF
+      #     import os
+      #     from urllib.parse import quote
+          
+      #     multiline_string = quote("""
+      #     This is a multiline string
+      #     It spans multiple lines
+      #     Each line is a part of the string
+      #     """)
+          
+      #     print(multiline_string)
+      #     with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as fh:
+      #       print(f"MESSAGE={multiline_string}", file=fh)
+      #     EOF
+
+      # - name: Fail job
+      #   if: ${{ inputs.is_run == true }}
+      #   run: echo "${{ steps.message.outputs.MESSAGE }}"

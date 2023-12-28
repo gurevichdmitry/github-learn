@@ -51,8 +51,8 @@ jobs:
           REPO: "${{ github.repository }}"
         with:
           vault-url: ${{ secrets.VAULT_ADDR }}
-          vault-role-id: ${{ secrets.CSP_VAULT_ROLE_ID }}
-          vault-secret-id: ${{ secrets.CSP_VAULT_SECRET_ID }}
+          vault-role-id: ${{ secrets.VAULT_ROLE_ID }}
+          vault-secret-id: ${{ secrets.VAULT_SECRET_ID }}
           slack-payload: |
             {
               "text": ":alert: CI is failing on ${{ github.event.workflow_run.head_branch }} :alert:",

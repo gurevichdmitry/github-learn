@@ -15,3 +15,7 @@ jobs:
           repository: elastic/kibana
           ref: main
           fetch-depth: 1  # Fetch only the latest commit
+      - name: Run FTR
+        shell: bash
+        run: |
+          node scripts/functional_test_runner --help

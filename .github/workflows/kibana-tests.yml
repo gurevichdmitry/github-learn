@@ -15,9 +15,15 @@ jobs:
           repository: elastic/kibana
           ref: main
           fetch-depth: 1  # Fetch only the latest commit
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20.12.2
+      - name: Bootstrap Kibana
+        shell: bash
+        run: |
+          yarn kbn bootstrap
       - name: Run FTR
         shell: bash
         run: |
-          node --version
-          yarn --version
-          nvm --version
+          node scripts/functional_test_runner --help

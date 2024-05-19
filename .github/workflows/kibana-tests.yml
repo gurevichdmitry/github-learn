@@ -18,4 +18,6 @@ jobs:
       - name: Run FTR
         shell: bash
         run: |
-          node scripts/functional_test_runner --help
+          node --version
+          yarn --version
+          nvm --version

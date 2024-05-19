@@ -1,0 +1,17 @@
+name: Kibana Tests
+
+on:
+  # On demand execution of workflow will run all suites.
+  workflow_dispatch:
+
+jobs:
+  run-kibana-tests:
+    name: Run Kibana tests
+    runs-on: ubuntu-22.04
+    steps:
+      - name: Checkout Kibana Repository
+        uses: actions/checkout@v4
+        with:
+          repository: elastic/kibana
+          ref: main
+          fetch-depth: 1  # Fetch only the latest commit

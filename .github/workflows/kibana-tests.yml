@@ -31,5 +31,12 @@ jobs:
           yarn kbn bootstrap
       - name: Run FTR
         shell: bash
+        env:
+          TEST_BROWSER_HEADLESS: 1
+          TEST_KIBANA_URL: ${{ secrets.TEST_KIBANA_URL }}
+          # TEST_ES_USER: elastic
+          TEST_CLOUD: 1
+          ES_SECURITY_ENABLED: 1
+          ES_VERSION: 8.15.0-SNAPSHOT
         run: |
-          node scripts/functional_test_runner --help
+          node scripts/functional_test_runner --config x-pack/test/cloud_security_posture_functional/config.cloud.ts --es-version ${{ env.ES_VERSION }}

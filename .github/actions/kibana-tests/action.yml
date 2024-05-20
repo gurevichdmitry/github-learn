@@ -44,20 +44,24 @@ runs:
         repository: elastic/kibana
         ref: ${{ inputs.ref_commit_sha }}
         fetch-depth: 1
+        path: kibana
 
     - name: Setup Node
       uses: actions/setup-node@v4
+      working-directory: kibana
       with:
         node-version-file: ${{ inputs.node_version_file }}
 
     - name: Bootstrap Kibana
       shell: bash
+      working-directory: kibana
       run: |
         yarn kbn bootstrap
 
     - name: Run FTR
       if: success()
       shell: bash
+      working-directory: kibana
       env:
         TEST_BROWSER_HEADLESS: ${{ inputs.test_browser_headless }}
         TEST_KIBANA_URL: ${{ inputs.test_kibana_url }}

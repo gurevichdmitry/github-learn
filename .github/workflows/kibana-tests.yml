@@ -3,6 +3,12 @@ name: Kibana Tests
 on:
   # On demand execution of workflow will run all suites.
   workflow_dispatch:
+    inputs:
+      ref_commit_sha:
+        type: string
+        description: |
+          Kibana PR commit sha
+        required: false
 
 jobs:
   run-kibana-tests:
@@ -13,7 +19,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: elastic/kibana
-          ref: main
+          ref: ${{ github.event.inputs.ref_commit_sha || 'main' }}
           fetch-depth: 1  # Fetch only the latest commit
       - name: Setup Node
         uses: actions/setup-node@v4

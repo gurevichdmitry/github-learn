@@ -48,9 +48,8 @@ runs:
 
     - name: Setup Node
       uses: actions/setup-node@v4
-      working-directory: kibana
       with:
-        node-version-file: ${{ inputs.node_version_file }}
+        node-version-file: kibana/${{ inputs.node_version_file }}
 
     - name: Bootstrap Kibana
       shell: bash

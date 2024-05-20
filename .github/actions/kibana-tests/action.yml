@@ -38,32 +38,36 @@ inputs:
 
 runs:
   using: 'composite'
-  env:
-    KIBANA_DIR: kibana
   steps:
+    - name: Set globals
+      id: globals
+      shell: bash
+      run: |
+        echo "KIBANA_DIR=kibana" >> "${GITHUB_OUTPUT}"
+  
     - name: Checkout Kibana Repository
       uses: actions/checkout@v4
       with:
         repository: elastic/kibana
         ref: ${{ inputs.ref_commit_sha }}
         fetch-depth: 1
-        path: ${{ env.KIBANA_DIR }}
+        path: ${{ steps.globals.outputs.KIBANA_DIR }}
 
     - name: Setup Node
       uses: actions/setup-node@v4
       with:
-        node-version-file: ${{ env.KIBANA_DIR }}/${{ inputs.node_version_file }}
+        node-version-file: ${{ steps.globals.outputs.KIBANA_DIR }}/${{ inputs.node_version_file }}
 
     - name: Bootstrap Kibana
       shell: bash
-      working-directory: ${{ env.KIBANA_DIR }}
+      working-directory: ${{ steps.globals.outputs.KIBANA_DIR }}
       run: |
         yarn kbn bootstrap
 
     - name: Run FTR
       if: success()
       shell: bash
-      working-directory: ${{ env.KIBANA_DIR }}
+      working-directory: ${{ steps.globals.outputs.KIBANA_DIR }}
       env:
         TEST_BROWSER_HEADLESS: ${{ inputs.test_browser_headless }}
         TEST_KIBANA_URL: ${{ inputs.test_kibana_url }}

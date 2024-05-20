@@ -34,6 +34,7 @@ jobs:
         env:
           TEST_BROWSER_HEADLESS: 1
           TEST_KIBANA_URL: ${{ secrets.TEST_KIBANA_URL }}
+          TEST_ES_URL: ${{ secrets.TEST_ES_URL }}
           # TEST_ES_USER: elastic
           TEST_CLOUD: 1
           ES_SECURITY_ENABLED: 1

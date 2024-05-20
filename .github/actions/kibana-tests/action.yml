@@ -13,6 +13,9 @@ inputs:
   test_kibana_url:
     description: 'URL for the Kibana instance to test'
     required: true
+  test_es_url:
+    description: 'URL for the ES instance'
+    required: true
   test_cloud:
     description: 'Whether to enable cloud testing'
     required: false
@@ -58,6 +61,7 @@ runs:
       env:
         TEST_BROWSER_HEADLESS: ${{ inputs.test_browser_headless }}
         TEST_KIBANA_URL: ${{ inputs.test_kibana_url }}
+        TEST_ES_URL: ${{ inputs.test_es_url }}
         TEST_CLOUD: ${{ inputs.test_cloud }}
         ES_SECURITY_ENABLED: ${{ inputs.es_security_enabled }}
         ES_VERSION: ${{ inputs.es_version }}

@@ -1,4 +1,4 @@
-name: Kibana Tests
+name: Kibana UI Tests
 
 on:
   # On demand execution of workflow will run all suites.
@@ -12,32 +12,47 @@ on:
 
 jobs:
   run-kibana-tests:
-    name: Run Kibana tests
     runs-on: ubuntu-22.04
     steps:
-      - name: Checkout Kibana Repository
-        uses: actions/checkout@v4
+      - name: Run Kibana Tests Action
+        uses: ./.github/actions/kibana-tests
         with:
-          repository: elastic/kibana
-          ref: ${{ github.event.inputs.ref_commit_sha || 'main' }}
-          fetch-depth: 1  # Fetch only the latest commit
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version-file: 'package.json'
-      - name: Bootstrap Kibana
-        shell: bash
-        run: |
-          yarn kbn bootstrap
-      - name: Run FTR
-        shell: bash
-        env:
-          TEST_BROWSER_HEADLESS: 1
-          TEST_KIBANA_URL: ${{ secrets.TEST_KIBANA_URL }}
-          TEST_ES_URL: ${{ secrets.TEST_ES_URL }}
-          # TEST_ES_USER: elastic
-          TEST_CLOUD: 1
-          ES_SECURITY_ENABLED: 1
-          ES_VERSION: 8.15.0-SNAPSHOT
-        run: |
-          node scripts/functional_test_runner --config x-pack/test/cloud_security_posture_functional/config.cloud.ts --es-version ${{ env.ES_VERSION }}
+          ref_commit_sha: ${{ github.event.inputs.ref_commit_sha || 'main' }}
+          test_kibana_url: ${{ secrets.TEST_KIBANA_URL }}
+          test_es_url: ${{ secrets.TEST_ES_URL }}
+          es_version: 8.15.0-SNAPSHOT
+          # test_cloud: ${{ github.event.inputs.test_cloud || '1' }}
+          # es_security_enabled: ${{ github.event.inputs.es_security_enabled || '1' }}
+          # test_browser_headless: ${{ github.event.inputs.test_browser_headless || '1' }}
+
+# jobs:
+#   run-kibana-tests:
+#     name: Run Kibana tests
+#     runs-on: ubuntu-22.04
+#     steps:
+#       - name: Checkout Kibana Repository
+#         uses: actions/checkout@v4
+#         with:
+#           repository: elastic/kibana
+#           ref: ${{ github.event.inputs.ref_commit_sha || 'main' }}
+#           fetch-depth: 1  # Fetch only the latest commit
+#       - name: Setup Node
+#         uses: actions/setup-node@v4
+#         with:
+#           node-version-file: 'package.json'
+#       - name: Bootstrap Kibana
+#         shell: bash
+#         run: |
+#           yarn kbn bootstrap
+#       - name: Run FTR
+#         shell: bash
+#         env:
+#           TEST_BROWSER_HEADLESS: 1
+#           TEST_KIBANA_URL: ${{ secrets.TEST_KIBANA_URL }}
+#           TEST_ES_URL: ${{ secrets.TEST_ES_URL }}
+#           # TEST_ES_USER: elastic
+#           TEST_CLOUD: 1
+#           ES_SECURITY_ENABLED: 1
+#           ES_VERSION: 8.15.0-SNAPSHOT
+#         run: |
+#           node scripts/functional_test_runner --config x-pack/test/cloud_security_posture_functional/config.cloud.ts --es-version ${{ env.ES_VERSION }}

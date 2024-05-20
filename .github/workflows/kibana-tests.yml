@@ -14,6 +14,9 @@ jobs:
   run-kibana-tests:
     runs-on: ubuntu-22.04
     steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+      
       - name: Run Kibana Tests Action
         uses: ./.github/actions/kibana-tests
         with:

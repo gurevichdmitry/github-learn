@@ -1,0 +1,65 @@
+name: 'Run Kibana Tests'
+description: 'Run Kibana tests using FTR'
+
+inputs:
+  ref_commit_sha:
+    description: 'Kibana PR commit sha'
+    required: false
+    default: 'main'
+  test_browser_headless:
+    description: 'Whether to run tests in headless mode, default ON'
+    required: false
+    default: '1'
+  test_kibana_url:
+    description: 'URL for the Kibana instance to test'
+    required: true
+  test_cloud:
+    description: 'Whether to enable cloud testing'
+    required: false
+    default: '1'
+  es_security_enabled:
+    description: 'Whether Elasticsearch security is enabled'
+    required: false
+    default: '1'
+  es_version:
+    description: 'Version of Elasticsearch to test against'
+    required: true
+  node_version_file:
+    description: 'Path to the Node.js version file'
+    required: false
+    default: 'package.json'
+  config:
+    description: 'Path to the test configuration file'
+    required: false
+    default: 'x-pack/test/cloud_security_posture_functional/config.cloud.ts'
+runs:
+  using: 'composite'
+  steps:
+    - name: Checkout Kibana Repository
+      uses: actions/checkout@v4
+      with:
+        repository: elastic/kibana
+        ref: ${{ inputs.ref_commit_sha }}
+        fetch-depth: 1
+
+    - name: Setup Node
+      uses: actions/setup-node@v4
+      with:
+        node-version-file: ${{ inputs.node_version_file }}
+
+    - name: Bootstrap Kibana
+      shell: bash
+      run: |
+        yarn kbn bootstrap
+
+    - name: Run FTR
+      if: success()
+      shell: bash
+      env:
+        TEST_BROWSER_HEADLESS: ${{ inputs.test_browser_headless }}
+        TEST_KIBANA_URL: ${{ inputs.test_kibana_url }}
+        TEST_CLOUD: ${{ inputs.test_cloud }}
+        ES_SECURITY_ENABLED: ${{ inputs.es_security_enabled }}
+        ES_VERSION: ${{ inputs.es_version }}
+      run: |
+        node scripts/functional_test_runner --config ${{ inputs.config }} --es-version ${{ env.ES_VERSION }}

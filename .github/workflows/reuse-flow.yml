@@ -1,0 +1,39 @@
+name: reuse-test
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment-name:
+        description: 'Deployment name'
+        required: true 
+        type: string
+  workflow_call:
+    inputs:
+      deployment_name:
+        description: Name of the deployment to create
+        required: true
+        type: string
+      cdr_infra:
+        description: Infra flag
+        required: false
+        type: boolean
+        default: false
+
+jobs:
+  Deploy:
+    runs-on: ubuntu-20.04
+    timeout-minutes: 120
+    steps:
+      - name: Print deployment name and version
+        id: set-cdr-infra
+        env:
+          IS_CDR_INFRA: ${{ inputs.cdr_infra }}
+        run: |
+          if [ "$IS_CDR_INFRA" == "true" ]; then
+            echo "IS_CDR_INFRA=true" >> $GITHUB_ENV
+          else
+            echo "IS_CDR_INFRA=false" >> $GITHUB_ENV
+          fi
+      - name: Print Flag
+        run: |
+          echo "Deployment name: ${IS_CDR_INFRA}"

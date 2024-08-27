@@ -37,3 +37,7 @@ jobs:
       - name: Print Flag
         run: |
           echo "Deployment name: ${IS_CDR_INFRA}"
+      - name: Check Condition
+        if: ${{ env.IS_CDR_INFAR == true }}
+        run: |
+          echo "The step has been executed"

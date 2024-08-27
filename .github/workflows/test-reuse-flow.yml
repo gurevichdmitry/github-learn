@@ -1,0 +1,18 @@
+name: test-reuse-flow
+
+on:
+  # Ability to execute on demand
+  workflow_dispatch:
+    inputs:
+      deployment_name:
+        type: string
+        description: |
+          Name with letters, numbers, hyphens; start with a letter. Max 20 chars. e.g., 'my-env-123'
+        required: true
+
+jobs:
+  deploy:
+    uses: ./.github/workflows/reuse-flow.yml
+    with:
+      deployment_name: ${{ inputs.deployment_name }}
+      cdr_infra: true

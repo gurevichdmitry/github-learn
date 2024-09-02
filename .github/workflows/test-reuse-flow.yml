@@ -20,4 +20,4 @@ jobs:
     uses: ./.github/workflows/reuse-flow.yml
     with:
       deployment_name: ${{ inputs.deployment_name }}
-      cdr_infra: ${{ fromJSON(inputs.cdr_infr) }}
+      cdr_infra: ${{ fromJSON(inputs.cdr_infra) }}

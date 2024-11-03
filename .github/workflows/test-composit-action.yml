@@ -1,0 +1,23 @@
+name: Composite Action Test
+
+on:
+  workflow_dispatch:
+    inputs:
+      deployment-name:
+        description: 'Deployment name'
+        required: true 
+        type: string
+
+jobs:
+  Deploy:
+    name: Run Composite
+    runs-on: ubuntu-22.04
+    timeout-minutes: 60
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v4
+        
+      - name: Composite action
+        uses: ./.github/actions/composite
+        with:
+          deployment-name: ${{ inputs.deployment-name }}

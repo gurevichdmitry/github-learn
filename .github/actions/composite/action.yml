@@ -91,6 +91,5 @@ runs:
         TF_VAR_project: ${{ inputs.tag-project }}
         TF_VAR_owner: ${{ inputs.tag-owner }}
       shell: bash
-      working-directory: "deploy/test-environments/elk-stack"
       run: |
         echo $TF_VAR_deployment_name

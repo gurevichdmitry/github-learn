@@ -91,7 +91,8 @@ runs:
         TF_VAR_project: ${{ inputs.tag-project }}
         TF_VAR_owner: ${{ inputs.tag-owner }}
       shell: bash
-      working-directory: ../scripts
+      # working-directory: ../scripts
       run: |
         echo $TF_VAR_deployment_name
-        ./get-released-version.sh "8.15.3"
+        ls -R
+        # ./get-released-version.sh "8.15.3"

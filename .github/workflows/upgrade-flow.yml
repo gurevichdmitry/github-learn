@@ -17,6 +17,10 @@ on:
       docker-image-override:
         required: false
         description: "Provide the full Docker image path to override the default image (e.g. for testing BC/SNAPSHOT)"
+      new-param:
+        type: string
+        description: "Hey"
+
 env:
   VERSION: 'docker.elastic.co/beats/elastic-agent:${{ inputs.elk-stack-version}}'
   DOCKER_IMAGE: ${{ inputs.docker-image-override }}
@@ -26,7 +30,15 @@ jobs:
     runs-on: ubuntu-20.04
     outputs:
       stack-version: ${{ steps.set-previous-version.outputs.PREVIOUS_VERSION }}
+      new-param: ${{ steps.data.outputs.new-param }}
     steps:
+      - name: Pass data
+        id: data
+        run: |
+          new_param=$(jq -r '.inputs["new-param"]' $GITHUB_EVENT_PATH)
+          # echo "::add-mask::$kbn_password"
+          echo "new-param=$new_param" >> $GITHUB_OUTPUT
+  
       - name: Update Image
         if: ${{ ! inputs.docker-image-override }}
         run: |
@@ -57,17 +69,19 @@ jobs:
     needs: init
     steps:
       - name: Print prev version in job
-        run: echo "${{needs.init.outputs.stack-version}}"
-  deploy:
-    uses: ./.github/workflows/test-job.yml
-    needs: init
-    with:
-      deployment_name: ${{ github.event.inputs.deployment_name }}
-      ec-api-key: "sdfsdf"
-      ec-stack-version: "${{needs.init.outputs.stack-version}}"
-  upgrade:
-    runs-on: ubuntu-20.04
-    needs: deploy
-    steps:
-      - id: set-vars
-        run: echo ${{ needs.deploy.outputs.ec-key }} ${{ needs.deploy.outputs.public-key }}
+        run: |
+          echo "${{needs.init.outputs.stack-version}}"
+          echo "${{needs.init.outputs.new-param}}"
+  # deploy:
+  #   uses: ./.github/workflows/test-job.yml
+  #   needs: init
+  #   with:
+  #     deployment_name: ${{ github.event.inputs.deployment_name }}
+  #     ec-api-key: "sdfsdf"
+  #     ec-stack-version: "${{needs.init.outputs.stack-version}}"
+  # upgrade:
+  #   runs-on: ubuntu-20.04
+  #   needs: deploy
+  #   steps:
+  #     - id: set-vars
+  #       run: echo ${{ needs.deploy.outputs.ec-key }} ${{ needs.deploy.outputs.public-key }}

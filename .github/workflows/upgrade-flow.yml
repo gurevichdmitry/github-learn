@@ -34,10 +34,13 @@ jobs:
     steps:
       - name: Pass data
         id: data
+        env:
+          SECRET: ${{ secrets.GPG_PASSPRHASE }}
         run: |
           new_param=$(jq -r '.inputs["new-param"]' $GITHUB_EVENT_PATH)
           echo "::add-mask::$new_param"
-          echo "new-param=$new_param" >> $GITHUB_OUTPUT
+          new_param_encrypted=$(gpg --symmetric --batch --passphrase "$SECRET" --output - <(echo "$new_param") | base64 -w0)
+          echo "new-param=$new_param_encrypted" >> $GITHUB_OUTPUT
   
       - name: Update Image
         if: ${{ ! inputs.docker-image-override }}
@@ -67,11 +70,15 @@ jobs:
   check-init:
     runs-on: ubuntu-20.04
     needs: init
+    env:
+      SECRET: ${{ secrets.GPG_PASSPRHASE }}
     steps:
       - name: Print prev version in job
         run: |
           echo "${{needs.init.outputs.stack-version}}"
-          echo "${{needs.init.outputs.new-param}}"
+          new_param_decrypted=$(gpg --decrypt --quiet --batch --passphrase "$SECRET" --output - <(echo "${{ needs.init.outputs.new-param }}" | base64 --decode))
+          echo "::add-mask::$new_param_decrypted"
+          echo "new-param=$new_param_decrypted" >> $GITHUB_OUTPUT
   # deploy:
   #   uses: ./.github/workflows/test-job.yml
   #   needs: init

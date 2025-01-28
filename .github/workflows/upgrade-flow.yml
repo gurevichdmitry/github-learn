@@ -36,7 +36,7 @@ jobs:
         id: data
         run: |
           new_param=$(jq -r '.inputs["new-param"]' $GITHUB_EVENT_PATH)
-          # echo "::add-mask::$kbn_password"
+          echo "::add-mask::$new_param"
           echo "new-param=$new_param" >> $GITHUB_OUTPUT
   
       - name: Update Image

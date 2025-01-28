@@ -78,7 +78,11 @@ jobs:
           echo "${{needs.init.outputs.stack-version}}"
           new_param_decrypted=$(gpg --decrypt --quiet --batch --passphrase "$SECRET" --output - <(echo "${{ needs.init.outputs.new-param }}" | base64 --decode))
           echo "::add-mask::$new_param_decrypted"
-          echo "new-param=$new_param_decrypted" >> $GITHUB_OUTPUT
+          echo "NEW_PARAM=$new_param_decrypted" >> $GITHUB_ENV
+      - name: Test env var
+        env:
+          MY_VAL: ${{ env.NEW_PARAM }}
+        run: echo "$MY_VAL"
   # deploy:
   #   uses: ./.github/workflows/test-job.yml
   #   needs: init
